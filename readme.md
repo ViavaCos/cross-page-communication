@@ -21,4 +21,4 @@ Template for `BroadcastChannel API`
 Template for `window.postMessage`
 
 ## Article link
-
+[稀土掘金](https://juejin.cn/post/7176607228906963002)
