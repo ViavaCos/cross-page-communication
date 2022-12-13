@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>A</title>
+</head>
+<body>
+
+  <h1>发送端 - A</h1>
+  <hr>
+  <button onclick="sendMessage()">send</button>
+
+  <script>
+    // 初始化广播频道实例
+    const MyCommunicationChannel = new BroadcastChannel('my_secret_channel_007')
+    // 唯一标识符，用作避免产生不必要的安全问题
+    const UID = 'viavacos'
+
+    MyCommunicationChannel.onmessage = (event) => {
+      // 消息中未携带数据。直接跳出
+      if(!event.data) return;
+
+      const { uid, msg, from } = event.data
+      // 消息中唯一标识符不正确。直接跳出
+      if(uid !== UID) return;
+
+      console.log(`收到来自${from}的消息：${msg}`)
+    }
+
+    // 初始化要发送的信息
+    const sendData = { uid: UID, from: 'A', msg: 'Hello every body! Can you hear me?' }
+    // 发送信息
+    function sendMessage () {
+      MyCommunicationChannel.postMessage(sendData)
+    }
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 1.名称不同的地方 -->
+  <title>B</title>
+</head>
+<body>
+  <!-- 2.名称不同的地方 -->
+  <h1>接收端 - B</h1>
+
+  <script>
+    const MyCommunicationChannel = new BroadcastChannel('my_secret_channel_007')
+    const UID = 'viavacos'
+
+    MyCommunicationChannel.onmessage = (event) => {
+      if(!event.data) return;
+
+      const { uid, from, msg } = event.data
+      // 若唯一标识符不正确 或者 消息来源不是A。直接跳出
+      if(uid !== UID || from !== 'A') return;
+
+      // 以表格形式输出到控制台
+      console.table({ uid, from, msg });
+
+      // 3.名称不同的地方
+      const sendData = { uid: UID, from: 'B', msg: 'I have received!' }
+      MyCommunicationChannel.postMessage(sendData)
+    }
+  </script>
+  
+</body>
+</html>

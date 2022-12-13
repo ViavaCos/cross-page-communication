@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>C</title>
+</head>
+<body>
+
+  <h1>接收端 - C</h1>
+
+  <script>
+    const MyCommunicationChannel = new BroadcastChannel('my_secret_channel_007')
+    const UID = 'viavacos'
+
+    MyCommunicationChannel.onmessage = (event) => {
+      if(!event.data) return;
+
+      const { uid, from, msg } = event.data
+      if(uid !== UID || from !== 'A') return;
+
+      console.table({ uid, from, msg });
+
+      const sendData = { uid: UID, from: 'C', msg: 'I have received!' }
+      MyCommunicationChannel.postMessage(sendData)
+    }
+  </script>
+  
+</body>
+</html>

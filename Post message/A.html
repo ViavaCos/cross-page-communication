@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>A</title>
+</head>
+<body>
+  <title>发送端 - A</title>
+  <hr>
+  <button onclick="openPageBAndThenSendMessage()">打开页面B并发送消息</button>
+
+  <script>
+    // 唯一标识符，随便定义就行
+    const UID = 'viavacos'
+
+    // 打开页面B并发送消息
+    function openPageBAndThenSendMessage () {
+      // 接收端的源信息
+      // const targetOrigin = 'http://127.0.0.1:5500' // 源信息一样就是【同源】通信
+      const targetOrigin = 'http://127.0.0.1:5501' // 源信息不一样就是【跨源】通信
+      // 新页面B的window对象
+      const otherWin = window.open(targetOrigin + '/B.html')
+      // 要发送的消息 uid-唯一标识符(随便定义即可)  msg-你要发送的信息
+      const message = { uid: UID, msg: 'Hi~' }
+
+      // 【同源】当目标页面加载完成后，发送消息
+      // otherWin.onload = () => {
+      //   otherWin.postMessage(message, targetOrigin)
+      // }
+
+      // 【跨源】设置一个延迟(设置的时间需要保证目标页面加载完成)
+      // 这里为什么不用onload事件呢？结尾告诉你
+      setTimeout(() => {
+        otherWin.postMessage(message, targetOrigin)
+      }, 100);
+    }
+
+    // 监听信息接收
+    window.addEventListener('message', event => {
+      if(!event.data) return;
+
+      const { uid } = event.data
+      if(uid !== UID) return;
+
+      console.log(1008600, event.data);
+    })
+  </script>
+</body>
+</html>

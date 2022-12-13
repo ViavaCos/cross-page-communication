@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>B</title>
+</head>
+<body>
+
+  <h1>接收端 - B</h1>
+
+  <script>
+    // 唯一标识符，随便定义就行
+    const UID = 'viavacos'
+
+    // 监听信息接收
+    window.addEventListener('message', event => {
+      // 接收的信息中没有数据，跳出
+      if(!event.data) return;
+
+      const { uid, msg } = event.data
+      // 数据校验不通过，跳出
+      if(uid !== UID) return;
+
+      console.log(1008600, event.data);
+
+      const feedbackMessage = { uid: UID, msg: '我收到辣！！！' }
+      // 通过消息的来源回复一条消息
+      event.source.postMessage(feedbackMessage, event.origin)
+    })
+  </script>
+  
+</body>
+</html>
